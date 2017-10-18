@@ -60,7 +60,7 @@ public class MultiCoreTest : MonoBehaviour {
         //Task t9 = new Task(() => ReadImage("IMG9.jpg", 8));
         //Task t10 = new Task(() => ReadImage("IMG10.jpg", 9));
 
-
+        //Task를 이용한 호출  14초? 정도 소요 cpu사용률 100% 
         Task t1 = new Task(() => IntAddMax());
         Task t2 = new Task(() => IntAddMax());
         Task t3 = new Task(() => IntAddMax());
@@ -73,6 +73,7 @@ public class MultiCoreTest : MonoBehaviour {
         Task t9 = new Task(() => IntAddMax());
         Task t10 = new Task(() => IntAddMax());
 
+        // async를 이용한 방식 1분 대로 먼가 느림 cpu사용률 27%정도
         //Task<UInt32> t1 = IntAddMaxasync();
         //Task<UInt32> t2 = IntAddMaxasync();
         //Task<UInt32> t3 = IntAddMaxasync();
@@ -84,6 +85,7 @@ public class MultiCoreTest : MonoBehaviour {
         //Task<UInt32> t9 = IntAddMaxasync();
         //Task<UInt32> t10 = IntAddMaxasync();
 
+        Debug.Log("t Start working");
         t1.Start();
         t2.Start();
         t3.Start();
@@ -94,17 +96,24 @@ public class MultiCoreTest : MonoBehaviour {
         t8.Start();
         t9.Start();
         t10.Start();
-        
-        t1.Wait();
-        t2.Wait();
-        t3.Wait();
-        t4.Wait();
-        t5.Wait();
-        t6.Wait();
-        t7.Wait();
-        t8.Wait();
-        t9.Wait();
-        t10.Wait();
+        Debug.Log("t EndStart");
+
+        Debug.Log("IntAddMax Start working");
+        IntAddMax();
+        Debug.Log("IntAddMax EndStart");
+
+        //t1.Wait();
+        //t2.Wait();
+        //t3.Wait();
+        //t4.Wait();
+        //t5.Wait();
+        //t6.Wait();
+        //t7.Wait();
+        //t8.Wait();
+        //t9.Wait();
+        //t10.Wait();
+
+
         //for (int i = 1; i <= 10; i++)
         //{
         //    IntAddMax();
@@ -112,6 +121,10 @@ public class MultiCoreTest : MonoBehaviour {
 
         sw.Stop();
         Debug.Log(sw.Elapsed.ToString());
+        
+
+        //tasktet.Start();
+        //tasktet.Wait();
     }
 	
 	// Update is called once per frame
@@ -136,24 +149,44 @@ public class MultiCoreTest : MonoBehaviour {
         //sr.sprite = sp;
         
     }
-    public void  IntAddMax()
+    public void IntAddMax()
     {
+        Debug.Log("IntAddMax");
         UInt32 num = 0;
         for(int i = 0; i < int.MaxValue; i++)
         {
             num = num + (UInt32)i;
         }
+        Debug.Log("Done!!");
     }
 
     async static Task<UInt32> IntAddMaxasync()
     {
-        UInt32 num = 0;
-        for (int i = 0; i < int.MaxValue; i++)
-        {
-            num = num + (UInt32)i;
-        }
-        await Task.FromResult<UInt32>(num);
-        return num;
+        Debug.Log("IntAddMaxasync call");
+        Task<UInt32> tt = Task.Run(() => {
+            UInt32 num = 0;
+            for (int i = 0; i < int.MaxValue; i++)
+            {
+                num = num + (UInt32)i;
+            }
+            return num;
+        });
+
+        //await Task.Run(() => {
+        //    UInt32 num = 0;
+        //    for (int i = 0; i < int.MaxValue; i++)
+        //    {
+        //        num = num + (UInt32)i;
+        //    }
+        //    return num;
+        //});
+        return tt.Result;
+        //for (int i = 0; i < int.MaxValue; i++)
+        //{
+        //    num = num + (UInt32)i;
+        //}
+        //await Task.FromResult<UInt32>(num);
+        //return num;
     }
     //static Task taskall()
     //{
