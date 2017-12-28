@@ -37,7 +37,7 @@ public class AsyncFuncTest : MonoBehaviour {
         Task func2task = new Task(()=>Func2(num));
         func2task.Start();
         await func2task;
-        Func1(num); //그럼일반함수는? 
+        //Func1(num); //그럼일반함수는? 
     }
 
     public void Func1(int num)
