@@ -58,31 +58,30 @@ public class ImageRead : MonoBehaviour {
     }
 
 
-    private void Update()
+     void Update()
     {
-        
-        if(count <= 9)
-        {
-            UnityEngine.Debug.Log("Main Update!!");
-            for (int index = 0; index < 10; index++)
-            {
-                UnityEngine.Debug.Log("index ::" + index);
+        //UnityEngine.Debug.Log("main Update");            
+        //if (count <= 9)
+        //{
+        //    for (int index = 0; index < 10; index++)
+        //    {
+        //        //UnityEngine.Debug.Log("index ::" + index);
 
-                if (ResultOutArray[index] && ResultInArray[index])
-                {
-                    count++;
-                }
-                else if (!ResultOutArray[index] && ResultInArray[index])
-                {
-                    
-                    StartCoroutine(ICreateImage(bytesList[index], index));
-                }
-            }
-        }
-        else
-        {
-            UnityEngine.Debug.Log("Main END!!");
-        }
+        //        if (ResultOutArray[index] && ResultInArray[index])
+        //        {
+        //            count++;
+        //        }
+        //        else if (!ResultOutArray[index] && ResultInArray[index])
+        //        {
+        //            StartCoroutine(ICreateImage(bytesList[index], index));
+        //            UnityEngine.Debug.Log("index ::" + index);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    UnityEngine.Debug.Log("Main END!!");
+        //}
     }
     async void CreateImage(string path,int index)
     {
@@ -131,6 +130,13 @@ public class ImageRead : MonoBehaviour {
         sw.Reset();
         sw.Start();
         byte[] bytes = File.ReadAllBytes(path);
+        for (int index = 0; index < 100000; index++)
+        {
+            for (int index2  = 0; index2 < 10000; index2++)
+            {
+
+            }
+        }
         sw.Stop();
         timetotal += sw.ElapsedMilliseconds;
         return bytes;
